@@ -1,0 +1,15 @@
+{
+  "name": "guige-servicedesk",
+  "owner": {
+    "name": "guige"
+  },
+  "description": "Connector + Skill + Plugin 教程示例：以 IT / HR 内部服务台为场景的可安装 plugin。",
+  "plugins": [
+    {
+      "name": "servicedesk",
+      "displayName": "Service Desk",
+      "source": "./plugins/servicedesk",
+      "description": "IT / HR 服务台工作流：工单分诊、入职准备、FAQ 回复、周报。接入工单、员工目录、知识库三个系统。"
+    }
+  ]
+}

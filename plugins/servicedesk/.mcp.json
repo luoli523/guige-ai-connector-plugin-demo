@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "ticketing": {
+      "type": "http",
+      "url": "http://127.0.0.1:8001/mcp"
+    },
+    "directory": {
+      "type": "http",
+      "url": "http://127.0.0.1:8002/mcp"
+    },
+    "knowledge-base": {
+      "type": "http",
+      "url": "http://127.0.0.1:8003/mcp"
+    }
+  }
+}

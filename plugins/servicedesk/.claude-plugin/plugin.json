@@ -1,0 +1,9 @@
+{
+  "name": "servicedesk",
+  "displayName": "Service Desk",
+  "version": "0.1.0",
+  "description": "IT / HR 内部服务台工作流：接入工单、员工目录、知识库三个系统，帮一线支持人员分诊工单、准备新员工入职、拟写 FAQ 回复、生成周报。所有查询自动完成，所有写回（改状态、加评论、建单）先展示拟稿，由人确认后执行。",
+  "author": {
+    "name": "guige"
+  }
+}
