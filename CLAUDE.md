@@ -25,21 +25,15 @@
 2. **plugins/servicedesk/**（vertical plugin）：`.mcp.json`、三个 command（`/triage`、`/onboard`、`/desk-report`）、四个 skill（ticket-triage、onboarding-prep、faq-reply、weekly-desk-report）。
 3. **plugins/servicedesk-agent/**（agent plugin）：`agents/servicedesk-agent.md` system prompt，捆绑上面四个 skill 的副本。
 4. **scripts/**：从 financial-services 精简的 `check.py`（校验 manifest、引用、skill 副本无漂移）和 `sync-agent-skills.py`。
-5. **docs/**：01 到 06 章，与博客系列一一对应。
-6. **博客系列**（6 篇，Hugo，发到 luoli523.github.io，走 guige-blog-post 流程）：
-   1. 从 Claude for Financial Advisors 看 AI 产品怎么交到用户手里
-   2. 用户视角走一遍：装 plugin，接系统，说一句话，拿到成品
-   3. Connector 层：用 FastMCP 把三个内部系统喂给 Claude
-   4. Skill 层：SKILL.md、触发词、command、references 的分工
-   5. Plugin 层：plugin.json、marketplace、版本号驱动更新，agent plugin 与 vertical plugin 的区别
-   6. 产品化检查清单：不可信内容边界、读写分离、发布流程、如何换成自己的行业
+5. **docs/**：01 到 06 章，教程正文，GitHub 直接阅读。
+6. **博客**：一篇总结文（Hugo，发到 luoli523.github.io，走 guige-blog-post 流程），docs 六章写完后再整理，大纲写前确认。
 
 ## 已确定的决策
 
 - 技术栈：Python + FastMCP。教程正文中文；代码、目录、tool 名英文。
 - 本期 **不做** Managed Agent，但 agent prompt 保持可被 `agent.yaml` 引用的写法。
 - 演示数据全部虚构，不含真实公司、人名、信息。
-- 顺序：先 demo-services 与 plugin 跑通，再写 docs，最后写博客（博客大纲写前再确认）。
+- 顺序：先 demo-services 与 plugin 跑通，再写 docs 六章，最后把博客整理成一篇（2026-09-15 由六篇改为一篇）。
 - Cowork 能否连本地 HTTP MCP 需实际验证；若不能，Cowork 部分改为讲解加截图占位，Claude Code 部分保证可跑。
 
 ## 实跑中发现的坑（写博客时要讲）
