@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect width="960" height="420" fill="#fafaf7"/>
+
+  <!-- left: clients -->
+  <text x="150" y="44" text-anchor="middle" font-size="15" fill="#6b7280">AI 客户端（谁来调用）</text>
+  <g fill="#ffffff" stroke="#d1d5db" stroke-width="1.5">
+    <rect x="40" y="70" width="220" height="56" rx="10"/>
+    <rect x="40" y="150" width="220" height="56" rx="10"/>
+    <rect x="40" y="230" width="220" height="56" rx="10"/>
+    <rect x="40" y="310" width="220" height="56" rx="10"/>
+  </g>
+  <g font-size="15" fill="#111827" text-anchor="middle">
+    <text x="150" y="93">ChatGPT / Codex</text>
+    <text x="150" y="112" font-size="12" fill="#6b7280">Apps &amp; Connectors / Plugins</text>
+    <text x="150" y="173">Claude / Cowork / Claude Code</text>
+    <text x="150" y="192" font-size="12" fill="#6b7280">Connectors 目录 + 自定义</text>
+    <text x="150" y="253">Grok</text>
+    <text x="150" y="272" font-size="12" fill="#6b7280">Marketplace + Bring Your Own MCP</text>
+    <text x="150" y="333">其他 MCP client</text>
+    <text x="150" y="352" font-size="12" fill="#6b7280">Cursor、Gemini、IDE 等</text>
+  </g>
+
+  <!-- middle: MCP -->
+  <text x="480" y="44" text-anchor="middle" font-size="15" fill="#6b7280">协议（怎么说话）</text>
+  <rect x="380" y="70" width="200" height="296" rx="14" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="480" y="110" text-anchor="middle" font-size="22" font-weight="600" fill="#3730a3">MCP</text>
+  <text x="480" y="132" text-anchor="middle" font-size="12" fill="#4b5563">Model Context Protocol</text>
+  <g font-size="13" fill="#1f2937">
+    <text x="400" y="176">tools：名字、参数、描述</text>
+    <text x="400" y="200">annotations：readOnlyHint…</text>
+    <text x="400" y="224">resources / prompts（可选）</text>
+    <line x1="400" y1="246" x2="560" y2="246" stroke="#c7d2fe"/>
+    <text x="400" y="272">传输：stdio（本地）</text>
+    <text x="400" y="296">　　　Streamable HTTP（远程）</text>
+    <text x="400" y="330">鉴权：OAuth / bearer</text>
+  </g>
+
+  <!-- right: your service -->
+  <text x="800" y="44" text-anchor="middle" font-size="15" fill="#6b7280">你的服务（被调用的一方）</text>
+  <rect x="700" y="70" width="200" height="130" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="800" y="105" text-anchor="middle" font-size="16" font-weight="600" fill="#065f46">MCP server</text>
+  <text x="800" y="130" text-anchor="middle" font-size="12" fill="#374151">一个进程或一个 HTTPS 端点</text>
+  <text x="800" y="150" text-anchor="middle" font-size="12" fill="#374151">把业务操作声明成 tools</text>
+  <text x="800" y="170" text-anchor="middle" font-size="12" fill="#374151">这就是一个 connector</text>
+
+  <rect x="700" y="240" width="200" height="126" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+  <text x="800" y="270" text-anchor="middle" font-size="15" fill="#111827">内部系统</text>
+  <g font-size="12" fill="#6b7280" text-anchor="middle">
+    <text x="800" y="296">工单 / CRM / 数据库</text>
+    <text x="800" y="316">员工目录 / 知识库</text>
+    <text x="800" y="336">任何有 API 的东西</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#6b7280" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+    <line x1="260" y1="98" x2="376" y2="150"/>
+    <line x1="260" y1="178" x2="376" y2="200"/>
+    <line x1="260" y1="258" x2="376" y2="240"/>
+    <line x1="260" y1="338" x2="376" y2="290"/>
+    <line x1="580" y1="135" x2="696" y2="135"/>
+    <line x1="800" y1="200" x2="800" y2="236"/>
+  </g>
+  <text x="638" y="126" text-anchor="middle" font-size="12" fill="#6b7280">一次实现</text>
+  <text x="318" y="118" text-anchor="middle" font-size="12" fill="#6b7280" transform="rotate(-8 318 118)">多个客户端复用</text>
+
+  <text x="480" y="400" text-anchor="middle" font-size="13" fill="#6b7280">Connector = 一个 MCP server + 一段 client 侧的配置。协议在中间，两边各自演进。</text>
+</svg>

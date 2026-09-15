@@ -64,8 +64,20 @@ plugins/
 scripts/
   check.py                校验 manifest、引用、skill 副本无漂移、端口一致
   sync-agent-skills.py    把 vertical skill 同步到 agent plugin
-docs/                     00 试用指南，01 到 06 对应博客六章
+docs/                     00 试用指南，01 到 06 教程正文
 ```
+
+## 教程
+
+| 章 | 内容 |
+|---|---|
+| [00](docs/00-quickstart.md) | 试用指南：起服务、装 plugin、跑一遍 |
+| [01](docs/01-what-is-a-connector.md) | Connector 是什么，为什么大家都在用它 |
+| 02 | 用户视角走一遍（待写） |
+| 03 | Connector 层：用 FastMCP 把三个内部系统喂给 Claude（待写） |
+| 04 | Skill 层：SKILL.md、触发词、command、references 的分工（待写） |
+| 05 | Plugin 层：plugin.json、marketplace、版本更新，agent 与 vertical 的区别（待写） |
+| 06 | 产品化检查清单（待写） |
 
 ## 四个 skill
 
