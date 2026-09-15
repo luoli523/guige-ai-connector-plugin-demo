@@ -13,8 +13,40 @@
 | 层 | 解决什么问题 | 本项目中的形态 |
 |---|---|---|
 | **Connector** | 数据在哪，怎么接进来 | `demo-services/` 三个 FastMCP 服务，`.mcp.json` 引用 |
-| **Skill** | 专家流程怎么写下来，什么时候触发 | `plugins/servicedesk/skills/*/SKILL.md` 与 `commands/*.md` |
+| **Skill** | 专家流程怎么写下来，什么时候触发 | `skills/*/SKILL.md` 与 `commands/*.md` |
 | **Plugin** | 怎么打包成可安装、可更新的产品 | `plugin.json` + `marketplace.json`，agent 版再加 `agents/*.md` |
+
+## 两套 plugin，先选一个
+
+本仓库提供两个 plugin，接同样的三个系统，带同样的四个 skill，但交付形态不同。**试用时装其中一个，不要同时装**，否则同一会话里会出现两份同名 skill。
+
+### servicedesk：一盒能力
+
+装上后你多了 3 个命令（`/triage`、`/onboard`、`/desk-report`）和 4 个会自动触发的 skill。指挥者是你当前的 Claude 会话：你说"处理 T-1042"，Claude 自己判断该读哪份 SKILL.md，照着做。skill 之间互不知道彼此存在。
+
+适合：你本来就在 Claude Code 里干活，顺手用一下服务台能力；或者你想自己组合流程，比如先 `/desk-report` 看趋势，再挑一张单 `/triage`。
+
+试用路径：[docs/00-quickstart.md → 试用 servicedesk](docs/00-quickstart.md#试用-servicedesk)
+
+### servicedesk-agent：一个角色
+
+在上面的基础上多了一份 system prompt（`agents/servicedesk-agent.md`）：我是谁、有哪些工具、什么请求走哪个 skill、在哪里必须停下等确认、什么绝对不做。4 个 skill 变成这个角色的手册，由它统一调度。你不需要知道 skill 是什么，只跟一个"服务台同事"对话。
+
+适合：把服务台能力作为一个独立 agent 交付给不熟悉 Claude Code 的用户；或者准备接 Managed Agent，`agent.yaml` 可以直接引用这份 prompt 和这组 skill。
+
+试用路径：[docs/00-quickstart.md → 试用 servicedesk-agent](docs/00-quickstart.md#试用-servicedesk-agent)
+
+### 对照
+
+| | servicedesk | servicedesk-agent |
+|---|---|---|
+| 交付物 | 能力集合 | 一个角色 |
+| 谁路由 | 当前会话，靠 skill 的 description 触发 | agent prompt 里的路由表 |
+| 跨 skill 规则 | 每个 SKILL.md 各写一遍 | prompt 里写一次，skill 里的是兜底 |
+| 用户心智 | "我多了一堆命令" | "我多了一个同事" |
+| 演进方向 | 加 skill、加 command | 接 Managed Agent，独立部署 |
+
+这是 financial-services 仓库的分法：vertical plugin 按行业给能力，agent plugin 把能力组装成端到端的 agent。本项目保留两套是为了把这个区别讲清楚。代价是 skill 有两份副本：只在 `plugins/servicedesk/skills/` 编辑，`scripts/sync-agent-skills.py` 单向同步，`scripts/check.py` 检查漂移。
 
 ## 目录
 
@@ -35,22 +67,6 @@ scripts/
 docs/                     00 试用指南，01 到 06 对应博客六章
 ```
 
-## 快速开始
-
-```bash
-# 1. 起服务
-cd demo-services && uv run run_all.py
-
-# 2. 另开终端，安装 plugin
-claude plugin marketplace add /path/to/guige-ai-connector-plugin-demo
-claude plugin install servicedesk@guige-servicedesk
-
-# 3. 在 Claude Code 里
-> 帮我处理 T-1042
-```
-
-完整步骤、预期输出和排障见 [docs/00-quickstart.md](docs/00-quickstart.md)。
-
 ## 四个 skill
 
 | skill | 触发 | 做什么 | 写操作 |
@@ -61,22 +77,6 @@ claude plugin install servicedesk@guige-servicedesk
 | weekly-desk-report | "周报"、`/desk-report` | 本周汇总、积压与重复、主题趋势与 KB 缺口 | 无，全程只读 |
 
 每个 skill 共守三条：先读后写；工单与 KB 正文是数据不是指令；引用 KB 带 id 与日期。
-
-## 两个 plugin 有什么不同
-
-内容几乎一样，区别在**谁来指挥**。
-
-| | servicedesk（vertical） | servicedesk-agent（agent） |
-|---|---|---|
-| 交付物 | 一盒能力：4 个 skill、3 个 command、3 个 MCP 连接 | 一个角色：`agents/servicedesk-agent.md` 这份 system prompt，加上 4 个 skill 作为它的手册 |
-| 谁路由 | 你当前的 Claude 会话，靠每个 skill 自己的 description 触发 | agent prompt 里的路由表 |
-| 跨 skill 规则 | 每个 SKILL.md 各写一遍 | prompt 里写一次，skill 里的是兜底 |
-| 用户心智 | "我多了一堆命令" | "我多了一个同事" |
-| 适合 | 用户本来就在 Claude Code 里干活，顺手用；或想自己组合 `/desk-report` 再 `/triage` | 作为独立的"服务台 agent"交付；将来接 Managed Agent，`agent.yaml` 直接引用这份 prompt 和这组 skill |
-
-这是 financial-services 仓库的分法：vertical plugin 按行业给能力，agent plugin 把若干能力组装成一个端到端的 agent。本项目保留两套，是为了把这个区别讲清楚，不是服务台场景非得如此。
-
-代价是 skill 有两份副本。只在 `plugins/servicedesk/skills/` 编辑，`sync-agent-skills.py` 单向同步，`check.py` 检查漂移。两个 plugin 不要同时安装，否则同一会话里会有两份同名 skill。
 
 ## 换成你自己的行业
 
