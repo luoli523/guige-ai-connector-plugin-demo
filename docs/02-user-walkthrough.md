@@ -172,4 +172,4 @@ Claude 做了什么：调了几十次 tool，读了七八篇知识库文章全�
 
 ---
 
-上一章：[01 Connector 是什么，为什么大家都在用它](01-what-is-a-connector.md) · 下一章：03 Connector 层（待写）
+上一章：[01 Connector 是什么，为什么大家都在用它](01-what-is-a-connector.md) · 下一章：[03 Connector 层](03-connector-layer.md)

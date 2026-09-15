@@ -74,7 +74,7 @@ docs/                     00 试用指南，01 到 06 教程正文
 | [00](docs/00-quickstart.md) | 试用指南：起服务、装 plugin、跑一遍 |
 | [01](docs/01-what-is-a-connector.md) | Connector 是什么，为什么大家都在用它 |
 | [02](docs/02-user-walkthrough.md) | 用户视角走一遍：装 plugin，接系统，说一句话，拿到成品 |
-| 03 | Connector 层：用 FastMCP 把三个内部系统喂给 Claude（待写） |
+| [03](docs/03-connector-layer.md) | Connector 层：用 FastMCP 把三个内部系统喂给 Claude |
 | 04 | Skill 层：SKILL.md、触发词、command、references 的分工（待写） |
 | 05 | Plugin 层：plugin.json、marketplace、版本更新，agent 与 vertical 的区别（待写） |
 | 06 | 产品化检查清单（待写） |

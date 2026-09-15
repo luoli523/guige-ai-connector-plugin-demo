@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 750" role="img" aria-labelledby="diagram-title diagram-desc">
+  <title id="diagram-title">三个 connector，12 个 tool</title>
+  <desc id="diagram-desc">ticketing、directory、knowledge-base 三个 MCP server 各自暴露的 tool，标出只读与写操作，以及各自读写的 JSON 数据文件。</desc>
+
+  <style>
+    text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'PingFang SC', 'Noto Sans SC', monospace; fill: #f8fafc; }
+    .title    { font-size: 22px; font-weight: 700; }
+    .subtitle { font-size: 12px; font-weight: 400; fill: #94a3b8; }
+    .group    { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+    .label    { font-size: 13px; font-weight: 600; text-anchor: middle; }
+    .sub      { font-size: 10px; font-weight: 400; fill: #94a3b8; text-anchor: middle; }
+    .annot    { font-size: 10px; font-weight: 400; fill: #cbd5e1; }
+    .edge     { font-size: 10px; font-weight: 500; fill: #94a3b8; text-anchor: middle; }
+    .legend   { font-size: 10px; fill: #94a3b8; }
+    .caption  { font-size: 12px; fill: #cbd5e1; text-anchor: middle; }
+
+    .mask   { fill: #0f172a; }
+    .node   { stroke-width: 1.5; }
+    .primary   { fill: rgba(8, 51, 68, 0.4);    stroke: #22d3ee; }
+    .secondary { fill: rgba(6, 78, 59, 0.4);    stroke: #34d399; }
+    .data      { fill: rgba(76, 29, 149, 0.4);  stroke: #a78bfa; }
+    .infra     { fill: rgba(120, 53, 15, 0.3);  stroke: #fbbf24; }
+    .alert     { fill: rgba(136, 19, 55, 0.4);  stroke: #fb7185; }
+    .bus       { fill: rgba(251, 146, 60, 0.3); stroke: #fb923c; }
+    .neutral   { fill: rgba(30, 41, 59, 0.5);   stroke: #94a3b8; }
+    .highlight { fill: rgba(59, 130, 246, 0.3); stroke: #60a5fa; }
+
+    .region       { fill: none; stroke-width: 1; stroke-dasharray: 8 4; }
+    .region-label { font-size: 10px; font-weight: 600; }
+    .conn      { fill: none; stroke: #64748b; stroke-width: 1.5; }
+    .conn-dim  { fill: none; stroke: #64748b; stroke-width: 1.2; stroke-opacity: 0.55; }
+    .conn-main { fill: none; stroke: #60a5fa; stroke-width: 2; }
+    .conn-err  { fill: none; stroke: #fb7185; stroke-width: 1.5; stroke-dasharray: 6 3; }
+    .lifeline  { stroke: #334155; stroke-width: 1; stroke-dasharray: 6 4; }
+    .divider   { stroke: #334155; stroke-width: 1; }
+  </style>
+
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-main" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrow-err" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185"/>
+    </marker>
+    <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrow-emerald" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-open" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#64748b" stroke-width="1.5"/>
+    </marker>
+    <marker id="inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse">
+      <polygon points="0 0, 12 5, 0 10" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    </marker>
+    <marker id="diamond-filled" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#94a3b8"/>
+    </marker>
+    <marker id="diamond-open" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- 1. background -->
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- 2. title block (top-left, x=40 y=44) -->
+  <text class="title" x="40" y="44">三个 connector，12 个 tool</text>
+  <text class="subtitle" x="40" y="64">只有 ticketing 有写操作，且每个写操作都返回变更前后的值；directory 与 knowledge-base 全部只读。</text>
+
+  <!-- 3. regions (dashed boundaries) -->
+  <g id="regions">
+    <rect class="region" x="40" y="110" width="420" height="510" rx="12" stroke="#fb923c"/>
+    <text class="region-label" x="52" y="128" fill="#fb923c">ticketing :8001 · 类 Jira Service Desk</text>
+    <rect class="region" x="480" y="110" width="420" height="510" rx="12" stroke="#fb923c"/>
+    <text class="region-label" x="492" y="128" fill="#fb923c">directory :8002 · 类 Workday / AD</text>
+    <rect class="region" x="920" y="110" width="420" height="510" rx="12" stroke="#fb923c"/>
+    <text class="region-label" x="932" y="128" fill="#fb923c">knowledge-base :8003 · 类 Confluence</text>
+  </g>
+
+  <!-- 4. connectors (behind nodes) -->
+  <g id="connectors">
+    <path class="conn" d="M 264,170 L 290,170"/>
+    <path class="conn" d="M 264,270 L 290,270"/>
+    <path class="conn" d="M 264,370 L 290,370"/>
+    <path class="conn" d="M 264,470 L 290,470"/>
+    <path class="conn" d="M 264,570 L 290,570"/>
+    <path class="conn" d="M 290,170 L 290,570"/>
+    <path class="conn" d="M 290,370 L 316,370" marker-end="url(#arrow)"/>
+    <path class="conn" d="M 704,170 L 730,170"/>
+    <path class="conn" d="M 704,270 L 730,270"/>
+    <path class="conn" d="M 704,370 L 730,370"/>
+    <path class="conn" d="M 704,470 L 730,470"/>
+    <path class="conn" d="M 704,570 L 730,570"/>
+    <path class="conn" d="M 730,170 L 730,570"/>
+    <path class="conn" d="M 730,370 L 756,370" marker-end="url(#arrow)"/>
+    <path class="conn" d="M 1144,170 L 1170,170"/>
+    <path class="conn" d="M 1144,270 L 1170,270"/>
+    <path class="conn" d="M 1170,170 L 1170,270"/>
+    <path class="conn" d="M 1170,220 L 1196,220" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- 5. nodes: each node = mask rect + styled rect + labels -->
+  <g id="nodes">
+    <g transform="translate(60,140)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">search_tickets</text>
+      <text class="sub" x="100" y="40">query · status · created_after</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(60,240)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_ticket</text>
+      <text class="sub" x="100" y="40">ticket_id</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(60,340)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node alert" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">create_ticket</text>
+      <text class="sub" x="100" y="40">title · description · requester_id</text>
+      <text class="sub" x="100" y="53">写 · 返回 before/after</text>
+    </g>
+    <g transform="translate(60,440)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node alert" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">update_ticket_status</text>
+      <text class="sub" x="100" y="40">ticket_id · status · assignee_id</text>
+      <text class="sub" x="100" y="53">写 · 返回 before/after</text>
+    </g>
+    <g transform="translate(60,540)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node alert" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">add_comment</text>
+      <text class="sub" x="100" y="40">ticket_id · author_id · body</text>
+      <text class="sub" x="100" y="53">写 · 返回 before/after</text>
+    </g>
+    <g transform="translate(320,335)">
+      <rect class="mask" y="10" width="120" height="50"/>
+      <ellipse class="mask" cx="60" cy="10" rx="60" ry="10"/>
+      <ellipse class="mask" cx="60" cy="60" rx="60" ry="10"/>
+      <rect class="node data" y="10" width="120" height="50" stroke="none"/>
+      <ellipse class="node data" cx="60" cy="60" rx="60" ry="10"/>
+      <ellipse class="node data" cx="60" cy="10" rx="60" ry="10"/>
+      <line class="node data" x1="0" y1="10" x2="0" y2="60"/>
+      <line class="node data" x1="120" y1="10" x2="120" y2="60"/>
+      <text class="label" x="60" y="42">tickets.json</text>
+    </g>
+    <g transform="translate(500,140)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">find_employee</text>
+      <text class="sub" x="100" y="40">query（id、姓名、邮箱）</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(500,240)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_manager</text>
+      <text class="sub" x="100" y="40">employee_id</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(500,340)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_team</text>
+      <text class="sub" x="100" y="40">team</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(500,440)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_assigned_devices</text>
+      <text class="sub" x="100" y="40">employee_id</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(500,540)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_onboarding_status</text>
+      <text class="sub" x="100" y="40">employee_id，可空</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(760,335)">
+      <rect class="mask" y="10" width="120" height="50"/>
+      <ellipse class="mask" cx="60" cy="10" rx="60" ry="10"/>
+      <ellipse class="mask" cx="60" cy="60" rx="60" ry="10"/>
+      <rect class="node data" y="10" width="120" height="50" stroke="none"/>
+      <ellipse class="node data" cx="60" cy="60" rx="60" ry="10"/>
+      <ellipse class="node data" cx="60" cy="10" rx="60" ry="10"/>
+      <line class="node data" x1="0" y1="10" x2="0" y2="60"/>
+      <line class="node data" x1="120" y1="10" x2="120" y2="60"/>
+      <text class="label" x="60" y="42">employees.json</text>
+    </g>
+    <g transform="translate(940,140)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">search_articles</text>
+      <text class="sub" x="100" y="40">query · include_archived</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(940,240)">
+      <rect class="mask" width="200" height="60" rx="6"/>
+      <rect class="node secondary" width="200" height="60" rx="6"/>
+      <text class="label" x="100" y="24">get_article</text>
+      <text class="sub" x="100" y="40">article_id</text>
+      <text class="sub" x="100" y="53">只读</text>
+    </g>
+    <g transform="translate(1200,185)">
+      <rect class="mask" y="10" width="120" height="50"/>
+      <ellipse class="mask" cx="60" cy="10" rx="60" ry="10"/>
+      <ellipse class="mask" cx="60" cy="60" rx="60" ry="10"/>
+      <rect class="node data" y="10" width="120" height="50" stroke="none"/>
+      <ellipse class="node data" cx="60" cy="60" rx="60" ry="10"/>
+      <ellipse class="node data" cx="60" cy="10" rx="60" ry="10"/>
+      <line class="node data" x1="0" y1="10" x2="0" y2="60"/>
+      <line class="node data" x1="120" y1="10" x2="120" y2="60"/>
+      <text class="label" x="60" y="42">articles.json</text>
+    </g>
+  </g>
+
+  <!-- 6. legend (bottom, outside all regions) -->
+  <g id="legend">
+    <g transform="translate(40,690)">
+      <rect class="node secondary" width="14" height="14" rx="3"/>
+      <text class="legend" x="20" y="11">只读 tool（readOnlyHint）</text>
+      <rect class="node alert" x="200" width="14" height="14" rx="3"/>
+      <text class="legend" x="220" y="11">写 tool（返回 before / after，由 skill 层先确认再调用）</text>
+      <rect class="node data" x="560" width="14" height="14" rx="3"/>
+      <text class="legend" x="580" y="11">demo-services/data/ 下的 JSON 文件</text>
+      <rect class="node bus" x="820" width="14" height="14" rx="3"/>
+      <text class="legend" x="840" y="11">一个 FastMCP server = 一个 connector</text>
+    </g>
+    <text class="caption" x="690" y="655">端口在 common/config.py 定义一处；plugins/*/.mcp.json 的 URL 由 check.py 校验与之一致</text>
+  </g>
+</svg>
