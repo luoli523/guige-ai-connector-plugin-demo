@@ -1,0 +1,586 @@
+[
+  {
+    "id": "E-1001",
+    "name": "万人迷",
+    "email": "wanrenmi@example.internal",
+    "title": "CEO",
+    "department": "Executive",
+    "team": "Leadership",
+    "manager_id": null,
+    "location": "上海",
+    "status": "active",
+    "start_date": "2019-03-01",
+    "devices": [
+      {
+        "asset_tag": "LT-0001",
+        "type": "laptop",
+        "model": "MacBook Pro 16",
+        "assigned_on": "2025-01-10"
+      }
+    ]
+  },
+  {
+    "id": "E-1002",
+    "name": "鬼见愁",
+    "email": "guijianchou@example.internal",
+    "title": "VP Engineering",
+    "department": "Engineering",
+    "team": "Eng Leadership",
+    "manager_id": "E-1001",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2019-06-15",
+    "devices": [
+      {
+        "asset_tag": "LT-0002",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2024-11-02"
+      }
+    ]
+  },
+  {
+    "id": "E-1003",
+    "name": "王二狗",
+    "email": "wangergou@example.internal",
+    "title": "Head of Sales",
+    "department": "Sales",
+    "team": "Sales Leadership",
+    "manager_id": "E-1001",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2020-02-10",
+    "devices": [
+      {
+        "asset_tag": "LT-0003",
+        "type": "laptop",
+        "model": "ThinkPad X1 Carbon",
+        "assigned_on": "2024-08-20"
+      },
+      {
+        "asset_tag": "PH-0003",
+        "type": "phone",
+        "model": "iPhone 15",
+        "assigned_on": "2024-08-20"
+      }
+    ]
+  },
+  {
+    "id": "E-1004",
+    "name": "包租婆",
+    "email": "baozupo@example.internal",
+    "title": "Finance Director",
+    "department": "Finance",
+    "team": "Finance",
+    "manager_id": "E-1001",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2020-09-01",
+    "devices": [
+      {
+        "asset_tag": "LT-0004",
+        "type": "laptop",
+        "model": "ThinkPad T14",
+        "assigned_on": "2025-03-12"
+      }
+    ]
+  },
+  {
+    "id": "E-1005",
+    "name": "男人婆",
+    "email": "nanrenpo@example.internal",
+    "title": "Head of People",
+    "department": "People",
+    "team": "People Ops",
+    "manager_id": "E-1001",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2021-01-18",
+    "devices": [
+      {
+        "asset_tag": "LT-0005",
+        "type": "laptop",
+        "model": "MacBook Air 13",
+        "assigned_on": "2025-02-01"
+      }
+    ]
+  },
+  {
+    "id": "E-1006",
+    "name": "费大厨",
+    "email": "feidachu@example.internal",
+    "title": "IT Manager",
+    "department": "IT",
+    "team": "IT Service Desk",
+    "manager_id": "E-1002",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2021-04-06",
+    "devices": [
+      {
+        "asset_tag": "LT-0006",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2025-05-19"
+      }
+    ]
+  },
+  {
+    "id": "E-1007",
+    "name": "牙擦苏",
+    "email": "yacasu@example.internal",
+    "title": "IT Support Specialist",
+    "department": "IT",
+    "team": "IT Service Desk",
+    "manager_id": "E-1006",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2022-07-11",
+    "devices": [
+      {
+        "asset_tag": "LT-0007",
+        "type": "laptop",
+        "model": "ThinkPad T14",
+        "assigned_on": "2025-06-30"
+      }
+    ]
+  },
+  {
+    "id": "E-1008",
+    "name": "达文西",
+    "email": "dawenxi@example.internal",
+    "title": "IT Support Specialist",
+    "department": "IT",
+    "team": "IT Service Desk",
+    "manager_id": "E-1006",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2023-03-20",
+    "devices": [
+      {
+        "asset_tag": "LT-0008",
+        "type": "laptop",
+        "model": "ThinkPad T14",
+        "assigned_on": "2025-06-30"
+      }
+    ]
+  },
+  {
+    "id": "E-1009",
+    "name": "大漂亮",
+    "email": "dapiaoliang@example.internal",
+    "title": "HR Business Partner",
+    "department": "People",
+    "team": "People Ops",
+    "manager_id": "E-1005",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2022-02-14",
+    "devices": [
+      {
+        "asset_tag": "LT-0009",
+        "type": "laptop",
+        "model": "MacBook Air 13",
+        "assigned_on": "2025-02-01"
+      }
+    ]
+  },
+  {
+    "id": "E-1010",
+    "name": "火云邪神",
+    "email": "huoyunxieshen@example.internal",
+    "title": "Engineering Manager",
+    "department": "Engineering",
+    "team": "Platform",
+    "manager_id": "E-1002",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2021-08-02",
+    "devices": [
+      {
+        "asset_tag": "LT-0010",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2024-12-05"
+      }
+    ]
+  },
+  {
+    "id": "E-1011",
+    "name": "铁头娃",
+    "email": "tietouwa@example.internal",
+    "title": "Senior Software Engineer",
+    "department": "Engineering",
+    "team": "Platform",
+    "manager_id": "E-1010",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2022-05-09",
+    "devices": [
+      {
+        "asset_tag": "LT-0011",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2024-12-05"
+      },
+      {
+        "asset_tag": "MN-0011",
+        "type": "monitor",
+        "model": "Dell U2723QE",
+        "assigned_on": "2024-12-05"
+      }
+    ]
+  },
+  {
+    "id": "E-1012",
+    "name": "酱爆",
+    "email": "jiangbao@example.internal",
+    "title": "Software Engineer",
+    "department": "Engineering",
+    "team": "Platform",
+    "manager_id": "E-1010",
+    "location": "远程",
+    "status": "active",
+    "start_date": "2023-10-16",
+    "devices": [
+      {
+        "asset_tag": "LT-0012",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2023-10-16"
+      }
+    ]
+  },
+  {
+    "id": "E-1013",
+    "name": "六指琴魔",
+    "email": "liuzhiqinmo@example.internal",
+    "title": "Engineering Manager",
+    "department": "Engineering",
+    "team": "Mobile",
+    "manager_id": "E-1002",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2021-11-22",
+    "devices": [
+      {
+        "asset_tag": "LT-0013",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2025-01-20"
+      }
+    ]
+  },
+  {
+    "id": "E-1014",
+    "name": "油炸鬼",
+    "email": "youzhagui@example.internal",
+    "title": "Software Engineer",
+    "department": "Engineering",
+    "team": "Mobile",
+    "manager_id": "E-1013",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2024-04-01",
+    "devices": [
+      {
+        "asset_tag": "LT-0014",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2024-04-01"
+      },
+      {
+        "asset_tag": "PH-0014",
+        "type": "phone",
+        "model": "Pixel 8",
+        "assigned_on": "2024-04-01"
+      }
+    ]
+  },
+  {
+    "id": "E-1015",
+    "name": "猪肉荣",
+    "email": "zhurourong@example.internal",
+    "title": "Sales Manager",
+    "department": "Sales",
+    "team": "Enterprise Sales",
+    "manager_id": "E-1003",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2021-05-17",
+    "devices": [
+      {
+        "asset_tag": "LT-0015",
+        "type": "laptop",
+        "model": "ThinkPad X1 Carbon",
+        "assigned_on": "2024-08-20"
+      }
+    ]
+  },
+  {
+    "id": "E-1016",
+    "name": "隔壁老王",
+    "email": "gebilaowang@example.internal",
+    "title": "Account Executive",
+    "department": "Sales",
+    "team": "Enterprise Sales",
+    "manager_id": "E-1015",
+    "location": "深圳",
+    "status": "active",
+    "start_date": "2022-09-05",
+    "devices": [
+      {
+        "asset_tag": "LT-0016",
+        "type": "laptop",
+        "model": "ThinkPad X1 Carbon",
+        "assigned_on": "2022-09-05"
+      },
+      {
+        "asset_tag": "PH-0016",
+        "type": "phone",
+        "model": "iPhone 14",
+        "assigned_on": "2022-09-05"
+      }
+    ]
+  },
+  {
+    "id": "E-1017",
+    "name": "如花",
+    "email": "ruhua@example.internal",
+    "title": "Account Executive",
+    "department": "Sales",
+    "team": "Enterprise Sales",
+    "manager_id": "E-1015",
+    "location": "新加坡",
+    "status": "active",
+    "start_date": "2023-06-12",
+    "devices": [
+      {
+        "asset_tag": "LT-0017",
+        "type": "laptop",
+        "model": "ThinkPad X1 Carbon",
+        "assigned_on": "2023-06-12"
+      }
+    ]
+  },
+  {
+    "id": "E-1018",
+    "name": "大力丸",
+    "email": "daliwan@example.internal",
+    "title": "Accountant",
+    "department": "Finance",
+    "team": "Finance",
+    "manager_id": "E-1004",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2022-11-07",
+    "devices": [
+      {
+        "asset_tag": "LT-0018",
+        "type": "laptop",
+        "model": "ThinkPad T14",
+        "assigned_on": "2025-03-12"
+      }
+    ]
+  },
+  {
+    "id": "E-1019",
+    "name": "米粉妹",
+    "email": "mifenmei@example.internal",
+    "title": "Account Executive",
+    "department": "Sales",
+    "team": "Enterprise Sales",
+    "manager_id": "E-1015",
+    "location": "深圳",
+    "status": "onboarding",
+    "start_date": "2026-09-08",
+    "devices": [
+      {
+        "asset_tag": "LT-0019",
+        "type": "laptop",
+        "model": "ThinkPad X1 Carbon",
+        "assigned_on": "2026-09-08"
+      }
+    ],
+    "onboarding": {
+      "buddy_id": "E-1016",
+      "checklist": [
+        {
+          "item": "签署入职文件",
+          "done": true
+        },
+        {
+          "item": "领取笔记本",
+          "done": true
+        },
+        {
+          "item": "激活公司账号并绑定 MFA",
+          "done": false
+        },
+        {
+          "item": "加入团队日常会议",
+          "done": true
+        },
+        {
+          "item": "完成信息安全培训",
+          "done": false
+        },
+        {
+          "item": "CRM 权限开通",
+          "done": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "E-1020",
+    "name": "皮皮虾",
+    "email": "pipixia@example.internal",
+    "title": "Software Engineer",
+    "department": "Engineering",
+    "team": "Platform",
+    "manager_id": "E-1010",
+    "location": "上海",
+    "status": "onboarding",
+    "start_date": "2026-09-14",
+    "devices": [],
+    "onboarding": {
+      "buddy_id": null,
+      "checklist": [
+        {
+          "item": "签署入职文件",
+          "done": true
+        },
+        {
+          "item": "领取笔记本",
+          "done": false
+        },
+        {
+          "item": "激活公司账号并绑定 MFA",
+          "done": false
+        },
+        {
+          "item": "加入团队日常会议",
+          "done": false
+        },
+        {
+          "item": "完成信息安全培训",
+          "done": false
+        },
+        {
+          "item": "代码仓库权限开通",
+          "done": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "E-1021",
+    "name": "葱油饼",
+    "email": "congyoubing@example.internal",
+    "title": "HR Coordinator",
+    "department": "People",
+    "team": "People Ops",
+    "manager_id": "E-1005",
+    "location": "上海",
+    "status": "onboarding",
+    "start_date": "2026-09-01",
+    "devices": [
+      {
+        "asset_tag": "LT-0021",
+        "type": "laptop",
+        "model": "MacBook Air 13",
+        "assigned_on": "2026-09-01"
+      }
+    ],
+    "onboarding": {
+      "buddy_id": "E-1009",
+      "checklist": [
+        {
+          "item": "签署入职文件",
+          "done": true
+        },
+        {
+          "item": "领取笔记本",
+          "done": true
+        },
+        {
+          "item": "激活公司账号并绑定 MFA",
+          "done": true
+        },
+        {
+          "item": "加入团队日常会议",
+          "done": true
+        },
+        {
+          "item": "完成信息安全培训",
+          "done": true
+        },
+        {
+          "item": "HRIS 管理员权限开通",
+          "done": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "E-1022",
+    "name": "二师兄",
+    "email": "ershixiong@example.internal",
+    "title": "Software Engineer",
+    "department": "Engineering",
+    "team": "Mobile",
+    "manager_id": "E-1013",
+    "location": "深圳",
+    "status": "offboarding",
+    "start_date": "2022-01-10",
+    "devices": [
+      {
+        "asset_tag": "LT-0022",
+        "type": "laptop",
+        "model": "MacBook Pro 14",
+        "assigned_on": "2024-06-03"
+      }
+    ]
+  },
+  {
+    "id": "E-1023",
+    "name": "豆腐西施",
+    "email": "doufuxishi@example.internal",
+    "title": "Sales Operations Analyst",
+    "department": "Sales",
+    "team": "Sales Ops",
+    "manager_id": "E-1003",
+    "location": "上海",
+    "status": "active",
+    "start_date": "2023-02-27",
+    "devices": [
+      {
+        "asset_tag": "LT-0023",
+        "type": "laptop",
+        "model": "ThinkPad T14",
+        "assigned_on": "2023-02-27"
+      }
+    ]
+  },
+  {
+    "id": "E-1024",
+    "name": "卷毛头",
+    "email": "juanmaotou@example.internal",
+    "title": "Senior Software Engineer",
+    "department": "Engineering",
+    "team": "Mobile",
+    "manager_id": "E-1013",
+    "location": "远程",
+    "status": "active",
+    "start_date": "2021-09-13",
+    "devices": [
+      {
+        "asset_tag": "LT-0024",
+        "type": "laptop",
+        "model": "MacBook Pro 16",
+        "assigned_on": "2025-04-14"
+      }
+    ]
+  }
+]

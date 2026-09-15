@@ -1,0 +1,11 @@
+[project]
+name = "demo-services"
+version = "0.1.0"
+description = "Mock internal systems exposed as FastMCP HTTP servers for the connector + skill + plugin tutorial."
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=4.0,<5",
+]
+
+[tool.uv]
+package = false
