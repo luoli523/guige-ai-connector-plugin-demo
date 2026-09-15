@@ -10,6 +10,12 @@
       "displayName": "Service Desk",
       "source": "./plugins/servicedesk",
       "description": "IT / HR 服务台工作流：工单分诊、入职准备、FAQ 回复、周报。接入工单、员工目录、知识库三个系统。"
+    },
+    {
+      "name": "servicedesk-agent",
+      "displayName": "Service Desk Agent",
+      "source": "./plugins/servicedesk-agent",
+      "description": "端到端服务台 agent：一句话触发跨工单、目录、知识库的查证与拟稿，写回前停下等人确认。"
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "name": "servicedesk-agent",
+  "displayName": "Service Desk Agent",
+  "version": "0.1.0",
+  "description": "端到端的服务台 agent：说一句「帮我处理 T-1042」，自动查工单、查人、查知识库、拟回复，在每个写回点停下等人确认。捆绑 servicedesk plugin 的四个 skill。",
+  "author": {
+    "name": "guige"
+  }
+}
