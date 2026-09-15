@@ -225,4 +225,4 @@ def main() -> int:
 
 ---
 
-上一章：[02 用户视角走一遍](02-user-walkthrough.md) · 下一章：04 Skill 层（待写）
+上一章：[02 用户视角走一遍](02-user-walkthrough.md) · 下一章：[04 Skill 层](04-skill-layer.md)
