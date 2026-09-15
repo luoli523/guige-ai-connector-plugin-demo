@@ -10,6 +10,9 @@ Checks:
   5. Agent-plugin bundled skills are byte-identical to the vertical source.
   6. Skill names referenced in agent prose (`kebab-case`) are bundled.
   7. Every plugins/*/.mcp.json URL matches demo-services/common/config.py.
+  8. Agent frontmatter `tools` entries that name MCP tools use the runtime
+     prefix mcp__plugin_<plugin>_<server>__ and point at a server declared
+     in that plugin's .mcp.json.
 
 Exit 0 if clean, 1 otherwise. Requires: pyyaml.
 """
@@ -83,9 +86,12 @@ verticals = [p for p in sorted(PLUGINS.iterdir()) if (p / ".claude-plugin/plugin
 agents = [p for p in sorted(PLUGINS.iterdir()) if (p / ".claude-plugin/plugin.json").is_file() and (p / "agents").is_dir()]
 
 # --- 3. agent.md frontmatter -------------------------------------------------
+agent_meta: list[tuple[Path, Path, dict]] = []
 for a in agents:
     for md in sorted((a / "agents").glob("*.md")):
-        frontmatter(md, ("name", "description"))
+        meta = frontmatter(md, ("name", "description"))
+        if meta:
+            agent_meta.append((a, md, meta))
 
 # --- 4. SKILL.md frontmatter ------------------------------------------------
 for sk in sorted(PLUGINS.glob("*/skills/*/SKILL.md")):
@@ -135,6 +141,30 @@ for mcp in sorted(PLUGINS.glob("*/.mcp.json")):
     got = {n: s.get("url") for n, s in servers.items()}
     if got != expected:
         err(f"mcp: {rel(mcp)}: servers {got} != demo-services config {expected}")
+
+# --- 8. agent tools use the plugin-prefixed MCP names -----------------------
+# Claude Code registers a plugin's MCP server as plugin_<plugin>_<server>, so
+# its tools are mcp__plugin_<plugin>_<server>__<tool>. A bare mcp__<server>__*
+# matches nothing and the agent refuses to start with zero tools.
+for a, md, meta in agent_meta:
+    tools = meta.get("tools")
+    if not tools:
+        continue
+    if isinstance(tools, str):
+        tools = [t.strip() for t in tools.split(",") if t.strip()]
+    try:
+        declared = set(json.loads((a / ".mcp.json").read_text(encoding="utf-8")).get("mcpServers", {}))
+    except (OSError, json.JSONDecodeError):
+        declared = set()
+    for t in tools:
+        if not t.startswith("mcp__"):
+            continue
+        checked += 1
+        m = re.fullmatch(rf"mcp__plugin_{re.escape(a.name)}_([A-Za-z0-9-]+)__.+", t)
+        if not m:
+            err(f"agent-tools: {rel(md)}: '{t}' must look like mcp__plugin_{a.name}_<server>__*")
+        elif m.group(1) not in declared:
+            err(f"agent-tools: {rel(md)}: '{t}' names server '{m.group(1)}' not in {rel(a / '.mcp.json')}")
 
 # --- report -------------------------------------------------------------------
 if errors:

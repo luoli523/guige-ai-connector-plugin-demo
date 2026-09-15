@@ -42,6 +42,10 @@
 - 顺序：先 demo-services 与 plugin 跑通，再写 docs，最后写博客（博客大纲写前再确认）。
 - Cowork 能否连本地 HTTP MCP 需实际验证；若不能，Cowork 部分改为讲解加截图占位，Claude Code 部分保证可跑。
 
+## 实跑中发现的坑（写博客时要讲）
+
+- **agent 的 tools 前缀**：plugin 安装后 MCP server 被登记为 `plugin_<plugin名>_<server名>`，工具名是 `mcp__plugin_servicedesk-agent_ticketing__get_ticket` 这种形式。agent frontmatter 里写 `mcp__ticketing__*` 一个都匹配不上，子代理以零工具拒绝启动。放第 5 章。`check.py` 第 8 项已校验。
+
 ## 约定
 
 - 在 `plugins/servicedesk/skills/` 编辑 skill，再运行 `python3 scripts/sync-agent-skills.py` 同步到 agent plugin。

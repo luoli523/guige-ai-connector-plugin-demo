@@ -205,6 +205,7 @@ claude plugin marketplace remove guige-servicedesk
 | `run_all.py` 报 `Address already in use` | 上次的服务没退干净 | `pkill -f demo-services` 或按端口 kill |
 | 说"处理 T-1042"没触发 skill | 措辞离触发词太远 | 用 `/triage T-1042` 显式调用，或换"帮我分诊 T-1042" |
 | 两个 plugin 同时装了，行为混乱 | 同名 skill 两份 | 卸掉一个 |
+| servicedesk-agent 子代理启动失败，提示零工具 | agent 的 `tools` 写的是 `mcp__<server>__*`，但 plugin 安装后工具名带前缀 `mcp__plugin_<plugin>_<server>__` | 用 `mcp__plugin_servicedesk-agent_<server>__*`；`check.py` 会校验这一项 |
 | Claude 直接执行了写操作没停 | skill 副本过旧 | `python3 scripts/check.py` 看是否 drift，`claude plugin update <name>` |
 | 改了 skill 但 Claude 行为没变 | 装的是缓存副本 | `claude plugin update <name>`，或用 `--plugin-dir` 开发 |
 | `check.py` 报 `requires pyyaml` | 系统 python 缺依赖 | `pip install pyyaml` 或 `uv run --with pyyaml python scripts/check.py` |
