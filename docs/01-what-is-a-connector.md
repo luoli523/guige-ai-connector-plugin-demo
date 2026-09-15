@@ -128,3 +128,7 @@ Anthropic 2026 年 9 月发布的 Claude for Financial Advisors 是一个用 con
 - xAI Docs，Grok Connectors；Grok Connectors 上线报道，2026-05-06
 - OpenAI Codex Docs，MCP servers
 - Anthropic，Claude for Financial Advisors；GitHub anthropics/financial-services
+
+---
+
+下一章：[02 用户视角走一遍](02-user-walkthrough.md)
