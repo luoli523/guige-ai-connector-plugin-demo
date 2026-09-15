@@ -193,4 +193,4 @@ skill 里还要交代 tool 的行为细节，模型才能用对。三个例子�
 
 ---
 
-上一章：[03 Connector 层](03-connector-layer.md) · 下一章：05 Plugin 层（待写）
+上一章：[03 Connector 层](03-connector-layer.md) · 下一章：[05 Plugin 层](05-plugin-layer.md)
