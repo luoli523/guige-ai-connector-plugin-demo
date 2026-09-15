@@ -4,9 +4,9 @@
 
 ## 1. 那个叫 Connectors 的按钮
 
-打开 2026 年的任何一个主流 AI 客户端，设置里都有一页长得差不多的东西：一排 Gmail、Google Drive、Notion、GitHub、Slack 的图标，每个后面一个"Add"或"Install"。名字不太一样，Claude 叫 Connectors，OpenAI 这边在 Codex 应用里叫 Plugins，Grok 叫 Marketplace 里的 Plugins。
+打开 2026 年的任何一个主流 AI 客户端，设置里都有一页长得差不多的东西：一排 Gmail、Google Drive、Notion、GitHub、Slack 的图标，每个后面一个"Add"或"Install"。名字不太一样，Claude 叫 Connectors，OpenAI 这边叫 Apps & Connectors，在 Codex 应用里显示为 Plugins，Grok 叫 Marketplace 里的 Plugins。
 
-![Codex 应用的 Plugins 页](images/01-connectors-codex.jpeg)
+![OpenAI 的 Plugins 页（Codex 应用，与 ChatGPT 共用同一套 connector）](images/01-connectors-codex.jpeg)
 
 ![Claude 的 Customize → Connectors 目录页，上方是自定义 connector，下方是官方目录](images/01-connectors-cowork.jpeg)
 
@@ -48,7 +48,7 @@ MCP server 做三件事：
 
 传输层有两种。**stdio** 是客户端把 server 当子进程拉起来，走标准输入输出，只能本地用。**Streamable HTTP** 是 server 监听一个 URL，客户端发 HTTP 请求，可以远程。线上产品只接受后者，而且要 HTTPS。
 
-client 侧的配置就是告诉客户端"这个 server 在哪"。Claude Code 是一个 `.mcp.json`，Codex 是 `config.toml` 里一段 `[mcp_servers.xxx]`，ChatGPT、Claude.ai、Grok 是设置页里粘一个 URL。
+client 侧的配置就是告诉客户端"这个 server 在哪"。Claude Code 是一个 `.mcp.json`，Codex 是 `config.toml` 里一段 `[mcp_servers.xxx]`，ChatGPT、Claude.ai、Grok 是设置页里粘一个 URL。同一家的客户端共用一套：ChatGPT 里加的 connector 在 Codex 里也能看到，Claude.ai 里加的在 Cowork 与 Desktop 里也在。
 
 所以那排图标背后每一个都是一个 MCP server，通常由服务方自己托管。你在 Claude 里点 "Add" 和粘一个自定义 URL，客户端做的事完全相同。区别只是官方目录里的经过了审核。
 
@@ -72,11 +72,10 @@ client 侧的配置就是告诉客户端"这个 server 在哪"。Claude Code 是
 |---|---|---|
 | Claude.ai / Cowork / Desktop | Customize → Connectors → 添加自定义 connector，粘 URL | 远程 HTTPS |
 | Claude Code | 项目或用户级 `.mcp.json`，或 plugin 自带 | 本地 stdio、本地 HTTP、远程都可 |
-| ChatGPT | Settings → Apps & Connectors → Advanced → Developer mode 后新建，粘 URL | 远程 HTTPS，需 Plus / Pro 或企业管理员开放 |
-| Codex | `codex mcp add` 或 `~/.codex/config.toml` | 本地 stdio 与远程 HTTP 都可 |
+| ChatGPT / Codex | ChatGPT：Settings → Apps & Connectors → Advanced → Developer mode 后新建，粘 URL；Codex：`codex mcp add` 或 `~/.codex/config.toml` | ChatGPT 远程 HTTPS，需 Plus / Pro 或企业管理员开放；Codex 本地与远程都可 |
 | Grok | grok.com/connectors → New Connector → Custom，粘 URL | 远程 HTTPS |
 
-注意最后一列。**线上聊天类客户端只接受公网 HTTPS，本机跑的服务只有 Claude Code、Codex 这类本地客户端能直接连。** 这就是本教程选 Claude Code 做演示的原因：三个模拟系统在本机起，不用申请域名和证书，读者十分钟能跑起来。同样的 server 加上 HTTPS 和鉴权，就能接到 Cowork 或 ChatGPT 上，协议层不用改。
+注意最后一列。**线上聊天类客户端只接受公网 HTTPS，本机跑的服务只有 Claude Code、Codex CLI 这类本地客户端能直接连。** 这就是本教程选 Claude Code 做演示的原因：三个模拟系统在本机起，不用申请域名和证书，读者十分钟能跑起来。同样的 server 加上 HTTPS 和鉴权，就能接到 Cowork 或 ChatGPT 上，协议层不用改。
 
 ## 5. 一个成体系的案例：Claude for Financial Advisors
 
