@@ -1,0 +1,21 @@
+{
+  "name": "servicedesk-agent",
+  "version": "0.1.0",
+  "description": "Service Desk Agent 的 OpenAI 兼容包：提供捆绑的四个服务台 skill 和三个本地 MCP 连接，不加载 Claude 专属 agent 角色或子代理配置。",
+  "author": {"name": "guige"},
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Service Desk Agent",
+    "shortDescription": "四个服务台 skill 的兼容包；Claude agent 行为不适用。",
+    "longDescription": "在 OpenAI 端提供工单分诊、入职准备、FAQ 回复和周报，业务能力与 servicedesk 相同。不会加载 Claude 的 agents/ 角色路由和工具白名单。推荐安装 servicedesk，两个插件只选一个；使用前启动 demo-services，写回逐项确认。",
+    "developerName": "guige",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "帮我处理 T-1042，先展示方案，不要直接写回。",
+      "检查入职中的员工，列出准备工作的遗漏。",
+      "有人问密码快过期了在哪改，怎么回他？"
+    ]
+  }
+}

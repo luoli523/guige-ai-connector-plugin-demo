@@ -10,9 +10,9 @@
 |---|---|---|
 | **MCP server** | 你的系统对 AI 开的口子，一个系统一个 | 工单、员工目录、知识库各一个 |
 | **Skill** | 写给 AI 看的工作说明书：什么时候用、先做什么后做什么、什么不能做 | 4 份 |
-| **Command** | 一个斜杠命令，`/triage T-1042` 这种。skill 的快捷入口 | 3 个 |
-| **Agent** | 一位有名字、有职责、只用指定工具的"AI 同事"，把几份 skill 装进一个人设里 | 1 位 |
-| **Plugin** | 把上面这些打成一个包，附一份清单 | 2 个 |
+| **Command** | 一个斜杠命令，`/triage T-1042` 这种。skill 的快捷入口 | 3 个，Claude 专用 |
+| **Agent** | 一位有名字、有职责、只用指定工具的"AI 同事"，把几份 skill 装进一个人设里 | 1 位，Claude 专用 |
+| **Plugin** | 把上面这些打成一个包，附一份清单 | 2 个，各带 Claude 和 Codex 两份清单 |
 
 所以下文说"装 plugin"，装的就是 connector 加说明书。说"AI 触发了某个 skill"，意思是它翻到了对应那份说明书。
 
@@ -44,7 +44,9 @@
 - **servicedesk**：一盒能力。装上后你的 Claude Code 多了三个系统的连接、四份 skill、三个命令，你在自己的会话里随手用。
 - **servicedesk-agent**：一位同事。多一份 agent 定义，把四份 skill 装进"服务台搭档"这个角色里，你跟它说话就行，不用知道 skill 是什么。
 
-本章用 servicedesk 演示。两个不要同时装。
+本章用 servicedesk 在 Claude Code 里演示。两个不要同时装。
+
+**Codex 端**：两个 plugin 都能装，读的是另一份清单，装上后有同样的四个 skill 和三个系统连接，但没有斜杠命令和 agent 角色，那两样是 Claude Code 的机制。Codex 里全用自然语言说，推荐装 servicedesk。
 
 ## 3. 这家公司
 
@@ -84,9 +86,16 @@ claude plugin install servicedesk@guige-servicedesk
 
 ![三个 plugin 自带的 MCP server 都显示 connected](images/mcp-installed.jpeg)
 
+用 Codex 的话，服务照样起，换两条命令：
+
+```bash
+codex plugin marketplace add /path/to/guige-ai-connector-plugin-demo
+codex plugin add servicedesk@guige-servicedesk
+```
+
 在真实公司里，这一节是 IT 管理员做的：起服务是运维的事，应用商店由公司维护，用户只看到列表里多了一个可装的东西，点一下。
 
-完整命令和排错见 [00 试用指南](00-quickstart.md)。
+完整命令和排错见 [00 试用指南](00-quickstart.md)，Codex 的场景说法、更新与卸载见其中 [Codex / ChatGPT 桌面端](00-quickstart.md#codex--chatgpt-桌面端) 一节。
 
 ## 5. 场景一：帮我处理 T-1042
 
@@ -173,9 +182,11 @@ AI 做了什么：查了几十次系统，读了七八篇文档，交出一份�
 
 回到第 1 节那张表：它**能**查到米粉妹的入职清单、能改工单状态，是 connector 给的；它**知道**处理工单先查人再搜文档、知道 T-1036 不能照做、知道"社保"不算文档缺口，是 skill 给的；用户两条命令**装上**就有了这一切，是 plugin 给的。
 
-## 10. Cowork 和其他 AI 产品
+## 10. Codex、Cowork 和其他 AI 产品
 
-本章全部在 Claude Code 里完成，因为三个模拟系统跑在本机，只有本地客户端能直连。同一套东西加上公网地址和鉴权，就能在 Cowork、Claude.ai 里当自定义 connector 添加。这一步本教程没有实测。
+本章截图全部在 Claude Code 里完成，因为三个模拟系统跑在本机，只有本地客户端能直连。Codex CLI 也是本地客户端，仓库已带好它的清单，四个场景用第 4 节那两条命令装上后照样说，只是没有 `/triage` 这类命令，说"帮我处理 T-1042，先展示方案，不要写回"即可。Codex 端的实跑截图待补。
+
+同一套东西加上公网地址和鉴权，就能在 Cowork、Claude.ai 里当自定义 connector 添加。这一步本教程没有实测。
 
 ---
 

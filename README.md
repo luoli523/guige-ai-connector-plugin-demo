@@ -4,6 +4,8 @@
 
 参照 [Claude for Financial Advisors](https://claude.com/blog/claude-for-financial-advisors) 与 [anthropics/financial-services](https://github.com/anthropics/financial-services)。
 
+同时提供 Claude 与 Codex / ChatGPT 桌面端的 plugin / marketplace 清单，复用同一组 skill 和本地 MCP 服务。OpenAI 端推荐安装 `servicedesk`，入口见 [试用指南](docs/00-quickstart.md#codex--chatgpt-桌面端)。不提供 ChatGPT 网页端接入。
+
 ## 一句话故事
 
 一线服务台人员面对三个互不相通的系统：工单、员工目录、知识库。装一个 plugin，接上三个系统，说一句"帮我处理 T-1042"，Claude 查人、查文档、拟回复、给出状态变更建议，最后由人确认写回。
@@ -19,6 +21,8 @@
 ## 两套 plugin，先选一个
 
 本仓库提供两个 plugin，接同样的三个系统，带同样的四个 skill，但交付形态不同。**试用时装其中一个，不要同时装**，否则同一会话里会出现两份同名 skill。
+
+下面的命令与独立 agent 对照适用于 Claude。OpenAI 端两个插件均提供四个 skill 和三个 MCP 连接；不迁移 Claude 的 `commands/`、`agents/`，也不增加平台专用 skill，因此 `servicedesk-agent` 在 OpenAI 端没有额外角色路由或子代理行为。
 
 ### servicedesk：一盒能力
 
@@ -51,6 +55,8 @@
 ## 目录
 
 ```
+.claude-plugin/marketplace.json   Claude marketplace
+.agents/plugins/marketplace.json OpenAI marketplace（同样指向 plugins/）
 demo-services/            三个模拟内部系统（Python + FastMCP，HTTP 监听本地端口）
   ticketing/              工单：搜索、读取、建单、改状态、加评论
   directory/              员工目录：查人、上级、团队、设备、入职状态（只读）
@@ -61,6 +67,7 @@ demo-services/            三个模拟内部系统（Python + FastMCP，HTTP 监
 plugins/
   servicedesk/            vertical plugin：.mcp.json、4 个 skill、3 个 command
   servicedesk-agent/      agent plugin：system prompt + 4 个 skill 的副本
+                         两个 plugin 均含 .claude-plugin/ 与 .codex-plugin/ 清单
 scripts/
   check.py                校验 manifest、引用、skill 副本无漂移、端口一致
   sync-agent-skills.py    把 vertical skill 同步到 agent plugin
@@ -100,6 +107,8 @@ docs/                     00 试用指南，01 到 03 教程正文
 
 - 在 `plugins/servicedesk/skills/` 编辑 skill，再运行 `python3 scripts/sync-agent-skills.py` 同步到 agent plugin。
 - 提交前运行 `python3 scripts/check.py`。
+- 使用 Python 3.11+；已有演示环境时可运行 `demo-services/.venv/bin/python scripts/check.py`。检查同时覆盖两种 marketplace、插件版本和共用资源引用。
+- 发布时同步更新每个 plugin 的 Claude / Codex 两份 manifest 版本；业务 skill 仍只在原目录维护。
 - 教程正文中文；代码、目录、tool 名英文。
 - 演示数据全部虚构，不含真实公司、人名、信息。
 

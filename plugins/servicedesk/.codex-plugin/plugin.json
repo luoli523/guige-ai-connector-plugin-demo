@@ -1,0 +1,21 @@
+{
+  "name": "servicedesk",
+  "version": "0.1.0",
+  "description": "IT / HR 内部服务台工作流：工单分诊、入职准备、FAQ 回复和周报。连接本地工单、员工目录、知识库 MCP 服务，所有写回逐项确认后执行。",
+  "author": {"name": "guige"},
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Service Desk",
+    "shortDescription": "查工单、查员工、查知识库，拟稿后逐项确认写回。",
+    "longDescription": "四个服务台 skill 共用三个本地 MCP 服务。支持工单分诊、入职准备、FAQ 回复和周报；写回前展示拟稿并逐项等待确认。请先启动 demo-services，通过自然语言或 skill 入口调用。",
+    "developerName": "guige",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "帮我处理 T-1042，先展示方案，不要直接写回。",
+      "检查入职中的员工，列出准备工作的遗漏。",
+      "生成 2026-09-08 到 2026-09-15 的服务台周报。"
+    ]
+  }
+}

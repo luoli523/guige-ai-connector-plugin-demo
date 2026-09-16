@@ -13,6 +13,8 @@ Checks:
   8. Agent frontmatter `tools` entries that name MCP tools use the runtime
      prefix mcp__plugin_<plugin>_<server>__ and point at a server declared
      in that plugin's .mcp.json.
+  9. OpenAI marketplace matches the Claude catalog; native manifests share
+     names, versions, skills and MCP files, with valid presentation metadata.
 
 Exit 0 if clean, 1 otherwise. Requires: pyyaml.
 """
@@ -165,6 +167,75 @@ for a, md, meta in agent_meta:
             err(f"agent-tools: {rel(md)}: '{t}' must look like mcp__plugin_{a.name}_<server>__*")
         elif m.group(1) not in declared:
             err(f"agent-tools: {rel(md)}: '{t}' names server '{m.group(1)}' not in {rel(a / '.mcp.json')}")
+
+# --- 9. OpenAI compatibility ------------------------------------------------
+def read_object(path: Path) -> dict:
+    global checked
+    checked += 1
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(value, dict):
+            raise ValueError("expected a JSON object")
+        return value
+    except (OSError, ValueError) as e:
+        err(f"JSON: {rel(path)}: {e}")
+        return {}
+
+
+claude_catalog = read_object(ROOT / ".claude-plugin/marketplace.json")
+openai_catalog = read_object(ROOT / ".agents/plugins/marketplace.json")
+if openai_catalog.get("name") != claude_catalog.get("name"):
+    err("openai-marketplace: name differs from Claude marketplace")
+interface = openai_catalog.get("interface")
+if not isinstance(interface, dict) or not interface.get("displayName"):
+    err("openai-marketplace: missing interface.displayName")
+entries = openai_catalog.get("plugins", [])
+if not isinstance(entries, list) or not all(isinstance(p, dict) for p in entries):
+    err("openai-marketplace: plugins must be an array of objects")
+    entries = []
+if [p.get("name") for p in entries] != [p.get("name") for p in claude_catalog.get("plugins", [])]:
+    err("openai-marketplace: plugin names/order differ from Claude marketplace")
+for entry in entries:
+    name = entry.get("name")
+    if not isinstance(name, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name):
+        err("openai-marketplace: invalid plugin name")
+        continue
+    plugin = PLUGINS / name
+    if entry.get("source") != {"source": "local", "path": f"./plugins/{name}"}:
+        err(f"openai-marketplace: {name}: expected local source ./plugins/{name}")
+    policy = entry.get("policy")
+    if not isinstance(policy, dict) or policy.get("installation") not in (
+        "AVAILABLE", "NOT_AVAILABLE", "INSTALLED_BY_DEFAULT"
+    ) or policy.get("authentication") not in ("ON_INSTALL", "ON_USE"):
+        err(f"openai-marketplace: {name}: invalid installation/authentication policy")
+    if entry.get("category") != "Productivity":
+        err(f"openai-marketplace: {name}: expected Productivity category")
+    native = read_object(plugin / ".codex-plugin/plugin.json")
+    claude = read_object(plugin / ".claude-plugin/plugin.json")
+    if native.get("name") != name or native.get("version") != claude.get("version"):
+        err(f"openai-plugin: {name}: name/version differ from Claude plugin")
+    for field, expected_path in (("skills", "./skills/"), ("mcpServers", "./.mcp.json")):
+        if native.get(field) != expected_path or not (plugin / expected_path).exists():
+            err(f"openai-plugin: {name}: {field} must reference existing {expected_path}")
+    if any(field in native for field in ("agents", "commands", "apps", "hooks", "displayName")):
+        err(f"openai-plugin: {name}: unsupported field for this local compatibility package")
+    author = native.get("author")
+    if not native.get("description") or not isinstance(author, dict) or not author.get("name"):
+        err(f"openai-plugin: {name}: missing description/author.name")
+    ui = native.get("interface")
+    if not isinstance(ui, dict):
+        err(f"openai-plugin: {name}: missing interface object")
+        continue
+    for field in ("displayName", "shortDescription", "longDescription", "developerName", "category"):
+        if not isinstance(ui.get(field), str) or not ui[field].strip():
+            err(f"openai-plugin: {name}: missing interface.{field}")
+    prompts = ui.get("defaultPrompt")
+    if not isinstance(prompts, list) or not 1 <= len(prompts) <= 3 or not all(
+        isinstance(p, str) and 0 < len(p.strip()) <= 128 for p in prompts
+    ):
+        err(f"openai-plugin: {name}: defaultPrompt needs 1–3 nonempty strings, max 128 characters each")
+    if ui.get("capabilities") != ["Read", "Write"]:
+        err(f"openai-plugin: {name}: expected Read/Write capabilities")
 
 # --- report -------------------------------------------------------------------
 if errors:

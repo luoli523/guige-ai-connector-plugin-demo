@@ -14,7 +14,7 @@
 | **Connector** | 每个系统一个 MCP server，对外开几个"操作" | 让 AI 能查、能改 | `demo-services/*/server.py`，加 plugin 里的 `.mcp.json` 记地址 |
 | **Skill 与 Command** | 写给 AI 的工作说明书，加斜杠命令入口 | 让 AI 会用，按你们的规矩办 | `plugins/servicedesk/skills/`、`commands/` |
 | **Agent** | 一位有角色的 AI 同事，把几份说明书装进一个人设 | 让不熟 AI 工具的人也能直接用 | `plugins/servicedesk-agent/agents/` |
-| **Plugin** | 上面这些打成包，附一份清单 | 让别人一条命令装上、更新 | `.claude-plugin/` 下两份清单 |
+| **Plugin** | 上面这些打成包，附一份清单 | 让别人一条命令装上、更新 | Claude 读 `.claude-plugin/`，Codex 读 `.agents/plugins/` 和 `.codex-plugin/`，两套清单指向同一批文件 |
 
 每一层只跟相邻的层打交道。skill 不知道系统是 Jira 还是 JSON 文件，只知道有个 `get_ticket` 可以调。plugin 不知道 skill 里写了什么，只管把目录打包。这就是后面能"换掉底下、上面不动"的原因。
 
@@ -22,7 +22,8 @@
 
 ```
 guige-ai-connector-plugin-demo/
-├── .claude-plugin/marketplace.json      ← Plugin：这个仓库是一个"应用商店"，列了两个 plugin
+├── .claude-plugin/marketplace.json      ← Plugin：这个仓库是一个"应用商店"，列了两个 plugin（Claude 读这份）
+├── .agents/plugins/marketplace.json     ← 同一个商店的 Codex 版清单，同名，指向同样两个目录
 ├── demo-services/                       ← 你的系统 + Connector
 │   ├── common/config.py                     三个系统的端口，只在这里写一次
 │   ├── data/{tickets,employees,articles}.json   假数据
@@ -33,7 +34,8 @@ guige-ai-connector-plugin-demo/
 │   └── smoke_test.py                        起服务、把 12 个操作各调一遍、还原数据
 ├── plugins/
 │   ├── servicedesk/                     ← Plugin：一盒能力
-│   │   ├── .claude-plugin/plugin.json       名字、版本、一句话介绍
+│   │   ├── .claude-plugin/plugin.json       名字、版本、一句话介绍（Claude 读）
+│   │   ├── .codex-plugin/plugin.json        同名同版本，多几行商店展示文案（Codex 读）
 │   │   ├── .mcp.json                        三个系统的地址
 │   │   ├── commands/{triage,onboard,desk-report}.md
 │   │   └── skills/                      ← Skill
@@ -42,7 +44,8 @@ guige-ai-connector-plugin-demo/
 │   │       ├── faq-reply/SKILL.md + references/reply-style.md
 │   │       └── weekly-desk-report/SKILL.md + templates/desk-report.md
 │   └── servicedesk-agent/               ← Plugin：一位同事
-│       ├── agents/servicedesk-agent.md  ← Agent
+│       ├── agents/servicedesk-agent.md  ← Agent（只有 Claude 会装它）
+│       ├── .claude-plugin/ 与 .codex-plugin/  两份清单，同上
 │       └── skills/                          上面四份的副本
 └── scripts/
     ├── sync-agent-skills.py                 把 skill 从 servicedesk 同步到 agent plugin
@@ -68,7 +71,7 @@ AI 看到的就是函数名、参数和那句英文说明。说明写得清楚�
 
 十二个操作里只有三个会改数据，全在工单系统：建单、改状态、加评论。这三个的返回值都带"改之前是什么、改之后是什么"，02 章 AI 汇报"状态 open 变为 waiting_on_requester"就是照着念的。员工目录和知识库一个写操作都没有：**AI 能做什么，在这一层就定死了**，比在说明书里写"不要改员工信息"可靠得多。
 
-`.mcp.json` 是 plugin 里的一份小文件，三行，记三个系统的地址。装 plugin 时 Claude Code 读它，就知道去哪连。
+`.mcp.json` 是 plugin 里的一份小文件，三行，记三个系统的地址。装 plugin 时 Claude Code 或 Codex 读它，就知道去哪连。
 
 ### Skill：写给 AI 的说明书
 
@@ -94,11 +97,13 @@ AI 看到的就是函数名、参数和那句英文说明。说明写得清楚�
 
 它跟 servicedesk 的差别只在交付形态：一盒工具给会用工具的人，一位同事给只想说话的人。内容一样，所以 agent plugin 里的 skill 是从 servicedesk 复制过去的副本，由脚本同步，脚本查漂移。
 
-### Plugin：两份清单
+### Plugin：清单
 
 `plugin.json` 说这个包叫什么、几点几版、一句话介绍。`marketplace.json` 在仓库根目录，说这个仓库里有哪几个包可以装。装的时候 Claude Code 按约定目录名找东西：有 `.mcp.json` 就连，有 `skills/` 就装 skill，有 `commands/` 就装命令，有 `agents/` 就装 agent。
 
 改了 skill 之后升一下版本号、推上去，用户跑一次更新命令就拿到新版。开发期间不用走这一套，`claude --plugin-dir plugins/servicedesk` 直接从目录加载。
+
+**Codex 那一套清单**是平行的一份：仓库根目录的 `.agents/plugins/marketplace.json` 对应 Claude 的 marketplace，每个 plugin 里的 `.codex-plugin/plugin.json` 对应 `.claude-plugin/plugin.json`。Codex 的清单要显式写出 skill 目录和 `.mcp.json` 在哪，还要多几行商店里的展示文案和示例提问。它只认 skill 和 MCP 连接，`commands/` 和 `agents/` 不会被装进去，所以 Codex 端两个 plugin 的能力一样。两套清单的名字和版本必须一致，`check.py` 第 9 项会核对。
 
 ## 4. 三条值得带走的经验
 
@@ -116,7 +121,7 @@ AI 看到的就是函数名、参数和那句英文说明。说明写得清楚�
 
 **换流程。** `plugins/servicedesk/skills/` 下照 ticket-triage 的结构写你的 skill：什么时候用我、铁律、步骤、拟稿骨架、不要做的事。规则放 `references/`，模板放 `templates/`。先想清楚你要演示的五六个判断，再造刚好够用的数据。这一步最花时间，也最值钱：没有判断，演示出来就是"AI 帮我查了一下"，看不出比自己查强在哪。
 
-**换名字。** 两份 `plugin.json` 和 `marketplace.json` 里的名字、介绍、版本。如果保留 agent，它的 tools 字段按上一节说的写全名。
+**换名字。** 每个 plugin 下 Claude 和 Codex 各一份 `plugin.json`，根目录两份 `marketplace.json`，名字、介绍、版本一起改，两边保持一致。如果保留 agent，它的 tools 字段按上一节说的写全名。不打算支持 Codex，就删掉 `.agents/` 和两个 `.codex-plugin/`，连同 `check.py` 第 9 项。
 
 **跑两个脚本。** `python3 scripts/sync-agent-skills.py --all` 同步 skill 副本，`python3 scripts/check.py` 查一遍。再跑 `uv run smoke_test.py` 把每个操作调一遍。
 

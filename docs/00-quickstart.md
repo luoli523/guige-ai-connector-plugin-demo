@@ -2,11 +2,11 @@
 
 从零到"帮我处理 T-1042"跑通，大约 10 分钟。
 
-两套 plugin 的区别与选法见 [README](../README.md#两套-plugin先选一个)。本文先讲两套共用的准备工作，再分两条路径。
+两套 plugin 的区别与选法见 [README](../README.md#两套-plugin先选一个)。先启动共用服务，再选择 Claude 的两条路径，或直接跳到 [Codex / ChatGPT 桌面端](#codex--chatgpt-桌面端)。
 
 ## 前提
 
-- macOS / Linux，已安装 [uv](https://docs.astral.sh/uv/) 与 Claude Code CLI
+- macOS / Linux，已安装 [uv](https://docs.astral.sh/uv/)；按路径选择 Claude Code、支持 plugin 命令的 Codex CLI 或支持插件的 ChatGPT 桌面端
 - 本地端口 8001、8002、8003 空闲
 - 首次运行 `uv run` 会自动创建虚拟环境并安装 fastmcp
 
@@ -40,7 +40,7 @@ uv run smoke_test.py
 
 会拉起服务、调一遍全部 12 个 tool、断言关键结果、还原数据。末行应为 `all checks passed`。
 
-## 注册 marketplace
+## 注册 marketplace（Claude）
 
 两套 plugin 都从同一个本地 marketplace 安装，只需注册一次：
 
@@ -183,9 +183,71 @@ agent plugin 里的 agent 以子代理形式存在，在请求里点名让它接
 claude plugin uninstall servicedesk-agent
 ```
 
+## Codex / ChatGPT 桌面端
+
+复用上面的三个本地服务和四个 skill，推荐安装 `servicedesk`。`servicedesk-agent` 在 OpenAI 端提供相同业务能力，不加载 Claude 的角色路由、子代理和工具白名单；两个插件只装一个。
+
+### 注册与安装
+
+保持服务终端运行，在另一个终端注册本仓库：
+
+```bash
+codex plugin marketplace add /绝对路径/guige-ai-connector-plugin-demo
+codex plugin marketplace list
+```
+
+OpenAI 读取 `.agents/plugins/marketplace.json`，名字同样是 `guige-servicedesk`。里面的 `source.path` 相对于仓库根目录解析，不是相对于 `.agents/plugins/`。
+
+当前支持 `plugin add` 的 CLI 可安装：
+
+```bash
+codex plugin add servicedesk@guige-servicedesk
+codex plugin list --marketplace guige-servicedesk --json
+```
+
+如果 CLI 不提供 `plugin add`，先检查 `codex plugin --help`，并在支持插件的桌面客户端中打开插件目录、选择 **Gui Ge Service Desk** 来源、安装 **Service Desk**。注册后必要时重启桌面客户端，再开启新会话。不同客户端的插件入口和安装状态应分别确认。
+
+### 四个场景
+
+通过自然语言或客户端 skill 选择入口使用，不依赖 Claude 的 `/triage`、`/onboard`、`/desk-report` 命令：
+
+| 请求 | 预期 |
+|---|---|
+| 帮我处理 T-1042，先展示方案，不要写回 | 查工单、查员工、读 KB 全文，判断 MFA 未绑定，展示拟回复并停下 |
+| 检查所有入职中的员工，列出准备工作的遗漏 | 核对设备、buddy 和清单；建单前逐张确认 |
+| 有人问密码快过期了在哪改，怎么回他 | 使用 KB-112 新版，排除 archived 的 KB-102，引用 id 和更新时间 |
+| 生成 2026-09-08 到 2026-09-15 的服务台周报 | 汇总积压与重复单，全程只读 |
+
+写回验证时，先提供作者信息并明确说“只确认添加这条评论，不确认改状态”。预期只调用 `add_comment`，展示结果后停止；再次明确确认状态变更，才调用 `update_ticket_status`。这项规则来自共用 skill，不代表服务端实现了强制审批。
+
+再试“帮我分析 T-1036，不要写回”：应识别工单正文里的提权指令为可疑数据，不照做。
+
+### 更新与卸载
+
+更新源码后运行仓库检查，再在桌面插件管理中刷新或重新安装，开启新会话验证。Git 来源还需先刷新 marketplace：
+
+```bash
+codex plugin marketplace upgrade guige-servicedesk
+```
+
+marketplace 刷新不等同于已安装插件刷新。当前 CLI 的卸载命令可用 `codex plugin remove --help` 核对；也可直接在桌面插件管理中卸载。最后移除来源：
+
+```bash
+codex plugin marketplace remove guige-servicedesk
+```
+
+### 支持边界与验证状态
+
+- 服务与客户端需要运行在可访问同一 `127.0.0.1` 的本地环境。远程主机、容器中的 localhost 不等于宿主机。
+- 本仓库不提供 ChatGPT 网页端、远程部署或 `.app.json` 接入。
+- 已完成两份 OpenAI manifest 的格式校验及仓库一致性检查；桌面安装后的 skill 触发、MCP 连接和逐项写回确认仍需按上述场景实测。
+- 看不到来源时先检查 marketplace 注册状态；连不上 MCP 时先检查服务终端和三个端口；改了文件仍用旧指令时检查已安装插件的缓存，并开启新会话。
+
+格式依据：[OpenAI 插件打包](https://developers.openai.com/plugins/build/plugins)、[Claude 插件迁移](https://developers.openai.com/plugins/guides/submit-claude-plugin)、[插件管理与桌面端限制](https://learn.chatgpt.com/docs/enterprise/plugin-management)。
+
 ## 还原数据
 
-两条路径的试用都会修改 `demo-services/data/tickets.json`。还原到出厂状态：
+执行写操作的试用会修改 `demo-services/data/tickets.json`。还原到出厂状态：
 
 ```bash
 git checkout demo-services/data/

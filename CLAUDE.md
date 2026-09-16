@@ -30,6 +30,8 @@
 
 ## 已确定的决策
 
+- Claude 与 OpenAI 使用独立 marketplace / manifest，共用现有 skills 和本地 `.mcp.json`。OpenAI 清单位于 `.agents/plugins/marketplace.json` 与各 plugin 的 `.codex-plugin/plugin.json`。两个平台的插件名称、版本保持一致。
+- OpenAI 端推荐 `servicedesk`；`servicedesk-agent` 仅提供相同的四个 skill，不迁移 Claude 的 commands、agent 角色或子代理行为。不增加 `openai-skills/`，不做 ChatGPT 网页端或远程部署。
 - 技术栈：Python + FastMCP。教程正文中文；代码、目录、tool 名英文。
 - 本期 **不做** Managed Agent，但 agent prompt 保持可被 `agent.yaml` 引用的写法。
 - 演示数据全部虚构，不含真实公司、人名、信息。
