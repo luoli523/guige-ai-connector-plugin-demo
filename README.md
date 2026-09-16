@@ -1,22 +1,26 @@
 # guige-ai-connector-plugin-demo
 
-一套把 AI 能力交到用户手里的产品化思路：**Connector + Skill + Plugin**。用 IT / HR 内部服务台场景做完整演示，代码可跑，数据虚构。
+**让 AI 用上你手里的系统：一套在本机能完整跑通的 Connector + Skill + Plugin 示例。**
 
-参照 [Claude for Financial Advisors](https://claude.com/blog/claude-for-financial-advisors) 与 [anthropics/financial-services](https://github.com/anthropics/financial-services)。
+你公司里有工单系统、人事系统、知识库，各有各的网页。团队开始用 Claude、Codex 这些 AI 工具干活，于是有人问：能不能让 AI 直接看到这些系统，还能帮我把回复写进工单？这个仓库就是这件事的一个完整答案，用一个 IT / HR 服务台场景做出来，clone 下来十分钟跑通。
 
-同时提供 Claude 与 Codex / ChatGPT 桌面端的 plugin / marketplace 清单，复用同一组 skill 和本地 MCP 服务。OpenAI 端推荐安装 `servicedesk`，入口见 [试用指南](docs/00-quickstart.md#codex--chatgpt-桌面端)。不提供 ChatGPT 网页端接入。
+**装上以后长这样**：在 Claude Code 或 Codex 里说一句"帮我处理 T-1042"，AI 查工单、查这个人是谁、搜知识库、判断原因、写好回复，停下来等你点头，点头后写回工单系统。
 
-## 一句话故事
+**给谁用**：手上有服务或系统、想把它提供给 AI 产品的人。不需要深度开发经验。这不是框架，是一个照着改的模板：把三个模拟系统换成你的真实接口，把四份 skill 换成你们的流程，改几个名字，就是你自己的 connector bundle。
 
-一线服务台人员面对三个互不相通的系统：工单、员工目录、知识库。装一个 plugin，接上三个系统，说一句"帮我处理 T-1042"，Claude 查人、查文档、拟回复、给出状态变更建议，最后由人确认写回。
+**仓库里有什么**：
 
-## 三层模型
-
-| 层 | 解决什么问题 | 本项目中的形态 |
+| | 是什么 | 在哪 |
 |---|---|---|
-| **Connector** | 数据在哪，怎么接进来 | `demo-services/` 三个 FastMCP 服务，`.mcp.json` 引用 |
-| **Skill** | 专家流程怎么写下来，什么时候触发 | `skills/*/SKILL.md` 与 `commands/*.md` |
-| **Plugin** | 怎么打包成可安装、可更新的产品 | `plugin.json` + `marketplace.json`，agent 版再加 `agents/*.md` |
+| 三个模拟系统 | 工单、员工目录、知识库，各是一个本机 MCP server，数据全部虚构 | `demo-services/` |
+| 四份 skill | 处理工单、入职准备、回答常见问题、周报，写给 AI 的工作说明书 | `plugins/servicedesk/skills/` |
+| 两个 plugin | 一盒能力（servicedesk）和一位同事（servicedesk-agent），装其中一个 | `plugins/` |
+| 两套清单 | Claude 和 Codex 各一套，指向同一批 skill 和服务 | `.claude-plugin/`、`.agents/`、各 plugin 的 `.codex-plugin/` |
+| 教程三章 | 为什么要 connector、四个场景演示、拆开看怎么改 | `docs/` |
+
+**为什么是这三层**：connector 让 AI 接得上你的系统；skill 把老员工脑子里的规矩写下来让 AI 会用；plugin 把两样打成包让同事一条命令装上。各家 AI 产品现在都是这么交付的，Anthropic 的 [Claude for Financial Advisors](https://claude.com/blog/claude-for-financial-advisors) 是典型案例，本项目照它的开源仓库 [anthropics/financial-services](https://github.com/anthropics/financial-services) 精简而来，把金融换成了谁都看得懂的服务台。
+
+**从哪开始**：想先跑起来看效果，去 [00 试用指南](docs/00-quickstart.md)；想先明白道理，从 [01 章](docs/01-why-connector.md) 读。Codex 用户看试用指南里的 [Codex / ChatGPT 桌面端](docs/00-quickstart.md#codex--chatgpt-桌面端) 一节，推荐装 servicedesk。不提供 ChatGPT 网页端接入。
 
 ## 两套 plugin，先选一个
 
