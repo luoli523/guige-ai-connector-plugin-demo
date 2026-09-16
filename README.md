@@ -20,6 +20,8 @@
 
 **为什么是这三层**：connector 让 AI 接得上你的系统；skill 把老员工脑子里的规矩写下来让 AI 会用；plugin 把两样打成包让同事一条命令装上。各家 AI 产品现在都是这么交付的，Anthropic 的 [Claude for Financial Advisors](https://claude.com/blog/claude-for-financial-advisors) 是典型案例，本项目照它的开源仓库 [anthropics/financial-services](https://github.com/anthropics/financial-services) 精简而来，把金融换成了谁都看得懂的服务台。
 
+![从你的系统到 AI 产品，中间五层](docs/images/03-layers.svg)
+
 **从哪开始**：想先跑起来看效果，去 [00 试用指南](docs/00-quickstart.md)；想先明白道理，从 [01 章](docs/01-why-connector.md) 读。Codex 用户看试用指南里的 [Codex / ChatGPT 桌面端](docs/00-quickstart.md#codex--chatgpt-桌面端) 一节，推荐装 servicedesk。不提供 ChatGPT 网页端接入。
 
 ## 两套 plugin，先选一个
