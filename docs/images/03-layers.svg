@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="diagram-title diagram-desc">
+  <title id="diagram-title">从你的系统到 AI 产品：五层</title>
+  <desc id="diagram-desc">自下而上：你的系统、connector server、plugin 内的地址与 skill 与 agent，最上面是使用 Claude Code 的用户。</desc>
+
+  <style>
+    text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'PingFang SC', 'Noto Sans SC', monospace; fill: #f8fafc; }
+    .title    { font-size: 22px; font-weight: 700; }
+    .subtitle { font-size: 12px; font-weight: 400; fill: #94a3b8; }
+    .group    { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+    .label    { font-size: 13px; font-weight: 600; text-anchor: middle; }
+    .sub      { font-size: 10px; font-weight: 400; fill: #94a3b8; text-anchor: middle; }
+    .annot    { font-size: 10px; font-weight: 400; fill: #cbd5e1; }
+    .edge     { font-size: 10px; font-weight: 500; fill: #94a3b8; text-anchor: middle; }
+    .legend   { font-size: 10px; fill: #94a3b8; }
+    .caption  { font-size: 12px; fill: #cbd5e1; text-anchor: middle; }
+
+    .mask   { fill: #0f172a; }
+    .node   { stroke-width: 1.5; }
+    .primary   { fill: rgba(8, 51, 68, 0.4);    stroke: #22d3ee; }
+    .secondary { fill: rgba(6, 78, 59, 0.4);    stroke: #34d399; }
+    .data      { fill: rgba(76, 29, 149, 0.4);  stroke: #a78bfa; }
+    .infra     { fill: rgba(120, 53, 15, 0.3);  stroke: #fbbf24; }
+    .alert     { fill: rgba(136, 19, 55, 0.4);  stroke: #fb7185; }
+    .bus       { fill: rgba(251, 146, 60, 0.3); stroke: #fb923c; }
+    .neutral   { fill: rgba(30, 41, 59, 0.5);   stroke: #94a3b8; }
+    .highlight { fill: rgba(59, 130, 246, 0.3); stroke: #60a5fa; }
+
+    .region       { fill: none; stroke-width: 1; stroke-dasharray: 8 4; }
+    .region-label { font-size: 10px; font-weight: 600; }
+    .conn      { fill: none; stroke: #64748b; stroke-width: 1.5; }
+    .conn-dim  { fill: none; stroke: #64748b; stroke-width: 1.2; stroke-opacity: 0.55; }
+    .conn-main { fill: none; stroke: #60a5fa; stroke-width: 2; }
+    .conn-err  { fill: none; stroke: #fb7185; stroke-width: 1.5; stroke-dasharray: 6 3; }
+    .lifeline  { stroke: #334155; stroke-width: 1; stroke-dasharray: 6 4; }
+    .divider   { stroke: #334155; stroke-width: 1; }
+  </style>
+
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-main" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrow-err" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185"/>
+    </marker>
+    <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrow-emerald" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-open" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto-start-reverse">
+      <polyline points="0 0, 10 3.5, 0 7" fill="none" stroke="#64748b" stroke-width="1.5"/>
+    </marker>
+    <marker id="inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse">
+      <polygon points="0 0, 12 5, 0 10" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    </marker>
+    <marker id="diamond-filled" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#94a3b8"/>
+    </marker>
+    <marker id="diamond-open" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto-start-reverse">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- 1. background -->
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- 2. title block (top-left, x=40 y=44) -->
+  <text class="title" x="40" y="44">从你的系统到 AI 产品：五层</text>
+  <text class="subtitle" x="40" y="64">左列是每层的作用，右侧是本项目里对应的文件</text>
+
+  <!-- 3. regions (dashed boundaries) -->
+  <g id="regions">
+<rect class="region" x="40" y="180" width="1140" height="290" rx="12" stroke="#fbbf24"/>
+<text class="region-label" x="52" y="198" fill="#fbbf24">Plugin · 下面三层打成一个包，附一份清单，一条命令装上</text>
+<text class="group" x="60" y="232" fill="#60a5fa">Agent</text><text class="annot" x="60" y="252">一位有角色的同事</text><text class="annot" x="60" y="266">可选，不装就自己挑 skill</text>
+<text class="group" x="60" y="322" fill="#34d399">Skill · Command</text><text class="annot" x="60" y="342">写给 AI 的说明书</text><text class="annot" x="60" y="356">加斜杠命令入口</text>
+<text class="group" x="60" y="412" fill="#fbbf24">Connector · 地址</text><text class="annot" x="60" y="432">plugin 只记去哪连</text><text class="annot" x="60" y="446">server 不在包里</text>
+<text class="group" x="60" y="582" fill="#a78bfa">Connector · server</text><text class="annot" x="60" y="602">每个系统开一个口</text><text class="annot" x="60" y="616">AI 能查什么、能改什么</text>
+<text class="group" x="60" y="682" fill="#94a3b8">你的系统</text><text class="annot" x="60" y="702">数据在这里</text><text class="annot" x="60" y="716">demo 用 JSON 冒充</text>
+<text class="annot" x="480" y="244">servicedesk plugin 没有这一层，servicedesk-agent 多这一份文件</text>
+<text class="annot" x="480" y="424">三行，一行一个地址。装 plugin 时 Claude Code 读它去连 server</text>
+</g>
+
+  <!-- 4. connectors (behind nodes) -->
+  <g id="connectors">
+<path class="conn-main" d="M 600,164 L 600,176" marker-end="url(#arrow-main)"/>
+<path class="conn" d="M 330,274 L 330,296" marker-end="url(#arrow)"/>
+<path class="conn" d="M 330,364 L 330,386" marker-end="url(#arrow)"/>
+<path class="conn-main" d="M 330,454 L 330,556" marker-end="url(#arrow-main)"/>
+<text class="edge" x="360" y="500" style="text-anchor:start">HTTP · 本机或公网</text>
+<path class="conn" d="M 350,624 L 350,656" marker-end="url(#arrow)"/>
+<path class="conn" d="M 680,624 L 680,656" marker-end="url(#arrow)"/>
+<path class="conn" d="M 1010,624 L 1010,656" marker-end="url(#arrow)"/>
+</g>
+
+  <!-- 5. nodes: each node = mask rect + styled rect + labels -->
+  <g id="nodes">
+<g transform="translate(500,100)"><rect class="mask" width="200" height="60" rx="6"/><rect class="node primary" width="200" height="60" rx="6"/><text class="label" x="100.0" y="26.0">你</text><text class="sub" x="100.0" y="44.0">Claude Code · 将来也可以是 Cowork</text></g>
+<g transform="translate(200,210)"><rect class="mask" width="260" height="60" rx="6"/><rect class="node highlight" width="260" height="60" rx="6"/><text class="label" x="130.0" y="26.0">servicedesk-agent.md</text><text class="sub" x="130.0" y="44.0">角色、职责、路由到哪份 skill</text></g>
+<g transform="translate(200,300)"><rect class="mask" width="170" height="60" rx="6"/><rect class="node secondary" width="170" height="60" rx="6"/><text class="label" x="85.0" y="26.0">ticket-triage</text><text class="sub" x="85.0" y="44.0">处理工单</text></g>
+<g transform="translate(390,300)"><rect class="mask" width="170" height="60" rx="6"/><rect class="node secondary" width="170" height="60" rx="6"/><text class="label" x="85.0" y="26.0">onboarding-prep</text><text class="sub" x="85.0" y="44.0">入职准备</text></g>
+<g transform="translate(580,300)"><rect class="mask" width="170" height="60" rx="6"/><rect class="node secondary" width="170" height="60" rx="6"/><text class="label" x="85.0" y="26.0">faq-reply</text><text class="sub" x="85.0" y="44.0">常见问题</text></g>
+<g transform="translate(770,300)"><rect class="mask" width="170" height="60" rx="6"/><rect class="node secondary" width="170" height="60" rx="6"/><text class="label" x="85.0" y="26.0">weekly-desk-report</text><text class="sub" x="85.0" y="44.0">周报</text></g>
+<g transform="translate(960,300)"><rect class="mask" width="200" height="60" rx="6"/><rect class="node neutral" width="200" height="60" rx="6"/><text class="label" x="100.0" y="26.0">3 个命令</text><text class="sub" x="100.0" y="44.0">/triage /onboard /desk-report</text></g>
+<g transform="translate(200,390)"><rect class="mask" width="260" height="60" rx="6"/><rect class="node infra" width="260" height="60" rx="6"/><text class="label" x="130.0" y="26.0">.mcp.json</text><text class="sub" x="130.0" y="44.0">三个 server 的地址</text></g>
+<g transform="translate(200,560)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node data" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">ticketing · :8001</text><text class="sub" x="150.0" y="44.0">5 个操作，其中 3 个写</text></g>
+<g transform="translate(530,560)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node data" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">directory · :8002</text><text class="sub" x="150.0" y="44.0">5 个操作，只读</text></g>
+<g transform="translate(860,560)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node data" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">knowledge-base · :8003</text><text class="sub" x="150.0" y="44.0">2 个操作，只读</text></g>
+<g transform="translate(200,660)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node neutral" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">tickets.json · 18 张</text><text class="sub" x="150.0" y="44.0">真实场景：Jira Service Desk</text></g>
+<g transform="translate(530,660)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node neutral" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">employees.json · 24 人</text><text class="sub" x="150.0" y="44.0">真实场景：Workday / AD</text></g>
+<g transform="translate(860,660)"><rect class="mask" width="300" height="60" rx="6"/><rect class="node neutral" width="300" height="60" rx="6"/><text class="label" x="150.0" y="26.0">articles.json · 14 篇</text><text class="sub" x="150.0" y="44.0">真实场景：Confluence</text></g>
+</g>
+
+  <!-- 6. legend (bottom, outside all regions) -->
+  <g id="legend">
+<text class="caption" x="600" y="776">每层只跟相邻的层打交道：换掉底下的系统，上面的 skill 和 plugin 不用动</text></g>
+</svg>

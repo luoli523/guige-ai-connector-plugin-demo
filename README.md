@@ -64,7 +64,7 @@ plugins/
 scripts/
   check.py                校验 manifest、引用、skill 副本无漂移、端口一致
   sync-agent-skills.py    把 vertical skill 同步到 agent plugin
-docs/                     00 试用指南，01 到 06 教程正文
+docs/                     00 试用指南，01 到 03 教程正文
 ```
 
 ## 教程
@@ -72,12 +72,9 @@ docs/                     00 试用指南，01 到 06 教程正文
 | 章 | 内容 |
 |---|---|
 | [00](docs/00-quickstart.md) | 试用指南：起服务、装 plugin、跑一遍 |
-| [01](docs/01-what-is-a-connector.md) | Connector 是什么，为什么大家都在用它 |
-| [02](docs/02-user-walkthrough.md) | 用户视角走一遍：装 plugin，接系统，说一句话，拿到成品 |
-| [03](docs/03-connector-layer.md) | Connector 层：用 FastMCP 把三个内部系统喂给 Claude |
-| [04](docs/04-skill-layer.md) | Skill 层：SKILL.md、触发词、command、references 的分工 |
-| [05](docs/05-plugin-layer.md) | Plugin 层：plugin.json、marketplace、版本更新，agent 与 vertical 的区别 |
-| [06](docs/06-productization-checklist.md) | 产品化检查清单：不可信内容边界、读写分离、发布流程、换成自己的行业 |
+| [01](docs/01-why-connector.md) | Connector：让 AI 用上你手里的系统。从一个真实的麻烦讲到 connector、skill、plugin 三层 |
+| [02](docs/02-demo.md) | 演示：说一句话，AI 就把单处理了。四个服务台场景 |
+| [03](docs/03-inside.md) | 拆开看：项目由哪几层组成，三条经验，怎么改成你自己的 |
 
 ## 四个 skill
 
